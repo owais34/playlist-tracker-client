@@ -1,24 +1,47 @@
-import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Home from './pages/Home/Home';
+import AddPlaylist from './pages/AddPlaylist/AddPlaylist';
+import { Resume } from './pages/Resume/Resume';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element : <Home/>
+  },
+  {
+    path : "addPlaylist",
+    element: <AddPlaylist/>
+  },
+  {
+    path : "resume/:id",
+    element:<Resume/>
+  },
+  {
+    path : "admin",
+    element: <h1>admin</h1>,
+    children : [
+      {
+        path: "addbook",
+        element: <h1>Add book page</h1>
+      },
+      {
+        path: "viewbook",
+        element: <h1>View Books page</h1>
+      },
+      {
+        path: "editbook/:bookid",
+        element: <h1>Edit book page</h1>
+      }
+    ]
+  }
+
+])
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RouterProvider router={router} fallbackElement={<p>Loading ....</p>} />
   );
 }
 

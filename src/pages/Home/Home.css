@@ -1,0 +1,10 @@
+.animate {
+    transition-property: all;
+    transition-timing-function: ease;
+    transition-delay: 200ms;
+  }
+  .animate:hover {
+    box-shadow: 0px 0px 7px gray;
+    /* transform: scale(1.05); */
+    
+  }

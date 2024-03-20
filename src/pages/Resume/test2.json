@@ -1,0 +1,24 @@
+{
+    "directoryPath": "C:\\Users\\owais\\Downloads\\coursetest",
+    "subModuleList": [
+      {
+        "directoryPath": "C:\\Users\\owais\\Downloads\\coursetest\\1. submodule",
+        "name": "1. submodule",
+        "videoList": [
+          {
+            "path": "C:\\Users\\owais\\Downloads\\coursetest\\1. submodule\\file_example_MP4_480_1_5MG.mp4",
+            "name": "file_example_MP4_480_1_5MG.mp4",
+            "duration": 30033,
+            "durationPlayed": 30033
+          }
+        ],
+        "duration": 30033,
+        "durationPlayed": 30033
+      }
+    ],
+    "moduleIndex": 0,
+    "stoppedAtTime": 0,
+    "videoIndex": 0,
+    "duration": 30033,
+    "durationPlayed": 30033
+  }
