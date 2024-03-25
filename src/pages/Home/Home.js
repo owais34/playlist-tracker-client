@@ -10,15 +10,15 @@ import { Link } from "react-router-dom";
 
 function Home() {
   const [gblState, dispatch] = useContext(GlobalStateContext);
-
   useEffect(() => {
+    
       axios
         .get(`${baseurl}/homeData`)
         .then((res) =>{ 
           dispatch({ type: "SET_HOMEDATA", payload: res.data })
         })
         .catch((err) => console.log(err));
-  }, [dispatch]);
+  }, []);
 
   return (
     <Container>

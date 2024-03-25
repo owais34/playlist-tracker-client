@@ -6,14 +6,12 @@ import { baseurl } from "../../configs";
 import { Container, Row, Col, Accordion } from "react-bootstrap";
 import "video-react/dist/video-react.css";
 import { Player, BigPlayButton } from "video-react";
-import { Element } from "../../components/Element";
 import { SideListElemet } from "../../components/SideListElemet";
 
 export const Resume = () => {
   const [gblState, dispatch] = useContext(GlobalStateContext);
   const [currentModule, setCurrentModule] = useState(0);
   const [currentVideo, setCurrentVideo] = useState(0);
-  const [data, setData] = useState(null);
   const { id } = useParams();
   const videoRef = useRef(null);
 
@@ -33,10 +31,11 @@ export const Resume = () => {
       // implement auto play next video
     }
 
-    const dataClone = {...data}
+    const dataClone = {...gblState.currentData}
+    if(dataClone && dataClone.subModuleList){
     dataClone.subModuleList[currentModule].videoList[currentVideo].durationPlayed=(currentTime*1000)
-
-    setData(dataClone)
+    dispatch({ type: "SET_CURRENTDATA", payload: dataClone })
+    }
 
     axios
       .post(`${baseurl}/update`, payload)
@@ -49,8 +48,8 @@ export const Resume = () => {
   };
 
   const getAccordionContent = () => {
-    if (data && data.subModuleList)
-      return data.subModuleList.map((subModuleData, index) => {
+    if (gblState.currentData && gblState.currentData.subModuleList)
+      return gblState.currentData.subModuleList.map((subModuleData, index) => {
         return (
           <SideListElemet
             key={index}
@@ -70,12 +69,11 @@ export const Resume = () => {
     axios
       .get(`${baseurl}/resume/${id}`)
       .then((res) => {
-        dispatch({ type: "SET_PLAYLISTDATA", payload: { id, data: res.data } });
+        dispatch({ type: "SET_CURRENTDATA", payload: res.data });
         setCurrentVideo(Number(res.data.videoIndex));
         setCurrentModule(Number(res.data.moduleIndex));
-        setData(res.data);
         //console.log(videoRef.current.getState())
-
+        console.log(gblState)
         videoRef.current.seek(Math.abs(Number(res.data.stoppedAtTime/1000)))
         // setInterval(()=>{
         //   if(videoRef && videoRef.current &&  videoRef.current.play)
@@ -103,7 +101,7 @@ export const Resume = () => {
         <Col lg={10} md={12} style={{ padding: 0 }}>
           <Player
             src={`${baseurl}/cdn/${getVideoUrl(
-              data,
+              gblState.currentData,
               currentVideo,
               currentModule
             )}`}
@@ -123,7 +121,7 @@ export const Resume = () => {
 };
 
 const getVideoUrl = (data, videoIndex, moduleIndex) => {
-  if (!data) return "";
+  if (!data || !data.subModuleList) return "";
   const url = data["subModuleList"][moduleIndex]["videoList"][videoIndex][
     "path"
   ].replaceAll("\\", ">");

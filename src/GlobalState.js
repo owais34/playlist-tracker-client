@@ -4,7 +4,8 @@ const GlobalStateContext = React.createContext();
 
 const initialState = {
   homePageData: [],
-  playListData:{}
+  playListData:{},
+  currentData:{}
 };
 
 function reducer(state, action) {
@@ -33,6 +34,12 @@ function reducer(state, action) {
         ...state,
         playListData:newPlayListData 
       }
+    case "SET_CURRENTDATA":
+      return {
+        ...state,
+        currentData: action.payload
+      }
+
     default:
       return state;
   }
